@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  app-service:
+    build: .
+    container_name: useless_bot_app
+    ports:
+      - "8080:8080"
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - BOT_NAME=${BOT_NAME}
+      - BOT_CHECKTIME=${BOT_CHECKTIME}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db-service
+  db-service:
+    image: postgres:14
+    container_name: useless_bot_db
+    volumes:
+      - ~/useless_bot_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
